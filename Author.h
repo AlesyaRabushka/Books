@@ -6,41 +6,43 @@ using namespace std;
 
 class Author {
 private:
-	string name;
-	int age;
-	string book;
+	string author_name;
+	int author_year;
+	string book_name;
+	string author_nation;
 
 public:
-	Author() {};
+	/*Author() {};
 	Author(string);
 	Author(string, int);
-	Author(string, int, string);
+	Author(string, int, string);*/
 
-	virtual void PrintAuthorInfo() {
-		cout << "Имя автора: " << GetName() << endl;
-		cout << "Возраст: " << GetAge() << endl;
-		cout << "Книга: " << GetBook() << endl;
+	virtual void PrintInfo() {
+		cout << "Имя автора: " << GetAuthorName() << endl;
+		cout << "Год рождения: " << GetAuthorYear() << endl;
+		cout << "Книга: " << GetBookName() << endl;
 	};
-	string GetName() {
-		return name;
+	string GetAuthorName() {
+		return author_name;
 	}
-	int GetAge() {
-		return age;
+	int GetAuthorYear() {
+		return author_year;
 	}
-	string GetBook() {
-		return book;
+	string GetBookName() {
+		return book_name;
 	}
-	void SetName(string n) {
-		name = n;
+	void SetAuthorName(string n) {
+		author_name = n;
 	}
-	void SetAge(int a) {
-		age = a;
+	void SetAuthorYear(int year) {
+		author_year = year;
 	}
-	void SetBook(string book) {
-		this->book = book;
+	void SetBookName(string book) {
+		this->book_name = book;
 	}
+	virtual string GetNation() = 0;  //чисто виртуальный метод для абстрактного класса
 };
-
+/*
 Author::Author(string) {
 	this->name = name;
 }
@@ -55,42 +57,46 @@ Author::Author(string name, int age, string book) {
 	this->age = age;
 	this->book = book;
 }
-
+*/
 
 
 class British :public Author {
 private:
-	string nation = "British";
+	string nation = "Английская литература";
 
 public:
 	British(string, int, string);
 	British(string, int);
 	British(string);
-	British() {};
+	British() {
+		SetAuthorName("Нет информации");
+		SetAuthorYear(0);
+		SetBookName("Нет информации");
+	};
 
-	void PrintAuthorInfo() override {
-		Author::PrintAuthorInfo();
-		cout << "Национальность: " << nation << endl;
+	void PrintInfo() override {
+		Author::PrintInfo();
+		cout << "----- " << nation << " ------" << endl;
 	}
 
-	string GetNation() {
+	virtual string GetNation() override {
 		return nation;
 	}
 };
 
 British::British(string name) {
-	British::SetName(name);
+	British::SetAuthorName(name);
 }
 
-British::British(string name, int age) {
-	British::SetName(name);
-	British::SetAge(age);
+British::British(string name, int year) {
+	British::SetAuthorName(name);
+	British::SetAuthorYear(year);
 }
 
-British::British(string name, int age, string book) {
-	British::SetName(name);
-	British::SetAge(age);
-	British::SetBook(book);
+British::British(string name, int year, string book) {
+	British::SetAuthorName(name);
+	British::SetAuthorYear(year);
+	British::SetBookName(book);
 }
 
 
@@ -100,54 +106,58 @@ British::British(string name, int age, string book) {
 
 class American :private Author {
 private:
-	string nation = "American";
+	string nation = "Американская литература";
 public:
-	American() {};
+	American() {
+		SetAuthorName("Нет информации");
+		SetAuthorYear(0);
+		SetBookName("Нет информации");
+	};
 	American(string);
 	American(string, int);
 	American(string, int, string);
 
-	void PrintAuthorInfo() override {
-		Author::PrintAuthorInfo();
-		cout << "Национальность: " << GetNation() << endl;
+	void PrintInfo() override {
+		Author::PrintInfo();
+		cout << "----- " << nation << " ------" << endl;
 	}
-	string GetNation() {
+	string GetNation() override{
 		return nation;
 	}
 
-	string GetName() {
-		return Author::GetName();
+	string GetAuthorName() {
+		return Author::GetAuthorName();
 	}
-	int GetAge() {
-		return Author::GetAge();
+	int GetAuthorYear() {
+		return Author::GetAuthorYear();
 	}
-	string GetBook() {
-		return Author::GetBook();
+	string GetBookName() {
+		return Author::GetBookName();
 	}
-	void SetName(string name) {
-		Author::SetName(name);
+	void SetAuthorName(string name) {
+		Author::SetAuthorName(name);
 	}
-	void SetAge(int age) {
-		Author::SetAge(age);
+	void SetAuthorYear(int year) {
+		Author::SetAuthorYear(year);
 	}
-	void SetBook(string book) {
-		Author::SetBook(book);
+	void SetBookName(string book) {
+		Author::SetBookName(book);
 	}
 };
 
 American::American(string name) {
-	American::SetName(name);
+	American::SetAuthorName(name);
 }
 
-American::American(string name, int age) {
-	American::SetName(name);
-	American::SetAge(age);
+American::American(string name, int year) {
+	American::SetAuthorName(name);
+	American::SetAuthorYear(year);
 }
 
-American::American(string name, int age, string book) {
-	American::SetName(name);
-	American::SetAge(age);
-	American::SetBook(book);
+American::American(string name, int year, string book) {
+	American::SetAuthorName(name);
+	American::SetAuthorYear(year);
+	American::SetBookName(book);
 }
 
 
@@ -155,36 +165,88 @@ American::American(string name, int age, string book) {
 
 class Russian :protected Author {
 private:
-	string nation = "Russian";
+	string nation = "Русская литература";
 public:
-	Russian() {};
+	Russian() {
+		SetAuthorName("Нет информации");
+		SetAuthorYear(0);
+		SetBookName("Нет информации");
+	};
 	Russian(string);
 	Russian(string, int);
 	Russian(string, int, string);
 
-	void PrintAuthorInfo() override {
-		Author::PrintAuthorInfo();
-		cout << "Национальность: " << nation << endl;
+	void PrintInfo() override {
+		Author::PrintInfo();
+		cout << "----- " << nation << " ------" << endl;
 	}
 
-	string GetNation() {
+	string GetNation() override {
 		return nation;
 	}
 
-
+	string GetAuthorName() {
+		return Author::GetAuthorName();
+	}
+	int GetAuthorYear() {
+		return Author::GetAuthorYear();
+	}
+	string GetBookName() {
+		return Author::GetBookName();
+	}
+	void SetAuthorName(string name) {
+		Author::SetAuthorName(name);
+	}
+	void SetAuthorYear(int year) {
+		Author::SetAuthorYear(year);
+	}
+	void SetBookName(string book) {
+		Author::SetBookName(book);
+	}
 };
 
 Russian::Russian(string name) {
-	Russian::SetName(name);
+	Russian::SetAuthorName(name);
 }
 
 Russian::Russian(string name, int age) {
-	Russian::SetName(name);
-	Russian::SetAge(age);
+	Russian::SetAuthorName(name);
+	Russian::SetAuthorYear(age);
 }
 
 Russian::Russian(string name, int age, string book) {
-	Russian::SetName(name);
-	Russian::SetAge(age);
-	Russian::SetBook(book);
+	Russian::SetAuthorName(name);
+	Russian::SetAuthorYear(age);
+	Russian::SetBookName(book);
+}
+
+
+//пространство имен для работы с авторами
+
+namespace authorSpace {
+	//установка имени книги
+	void SetBookName(American am, string b) {
+		am.SetBookName(b);
+	}
+
+	void SetBookName(British& br, string b) {
+		br.SetBookName(b);
+	}
+
+	void SetBookName(Russian& rus, string b) {
+		rus.SetBookName(b);
+	}
+
+	//возращение имени книги автора
+	string GetBookName(American am) {
+		return am.GetBookName();
+	}
+
+	string GetBookName(British br) {
+		return br.GetBookName();
+	}
+
+	string GetBookName(Russian rus) {
+		return rus.GetBookName();
+	}
 }
